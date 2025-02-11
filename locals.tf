@@ -3,8 +3,8 @@ resource "random_id" "this" {
 }
 
 locals {
-  common_convention_base_ssc = "${var.name_attributes_ssc.department_code}${var.name_attributes_ssc.environment}${var.name_attributes_ssc.csp_region}"
   random_number              = substr(random_id.this.dec, 0, 6)
+  common_convention_base_ssc = "${var.name_attributes_ssc.department_code}${var.name_attributes_ssc.environment}${var.name_attributes_ssc.csp_region}"
   resource_type_abbreviations_statcan = {
     "storage account"    = "sa"
     "key vault"          = "kv"

@@ -19,7 +19,7 @@ variable "name_attributes_ssc" {
   type = object({
     department_code = string
     environment     = string
-    csp_region          = string
+    csp_region      = string
   })
 
   validation {
@@ -38,7 +38,7 @@ variable "name_attributes_ssc" {
   }
 
   validation {
-    condition = var.government
+    condition     = var.government
     error_message = "The government variable is required to be true when setting the name_attributes_ssc variable."
   }
 }
