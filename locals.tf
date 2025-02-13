@@ -20,7 +20,7 @@ locals {
 
   resource_names_exception = {
     # For any resources that does not follow the convention <dept code><environment><CSP Region>-<userDefined-string>-suffix
-    "storage account" = "${local.common_convention_base_ssc}${var.user_defined}"
+    "storage account" = "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}"
   }
 
   resource_names_statcan = { for resource_type, abbrev in local.resource_type_abbreviations_statcan : resource_type => "${abbrev}${local.random_number}${var.user_defined}" }
