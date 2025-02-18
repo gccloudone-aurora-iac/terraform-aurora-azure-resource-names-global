@@ -7,9 +7,6 @@ module "azure_resource_prefixes_ssc" {
     department_code = "Sc"
     environment     = "P"
     csp_region      = "c"
-    owner           = "VAR"
-    parent_object_name = "EX"
-    instance = 1
   }
 }
 

@@ -26,6 +26,23 @@ output "container_registry_name" {
   value       = local.resource_names["container registry"]
 }
 
+// Scope: global
+// Length: 3-24
+// Valid characters: Alphanumeric and hyphen.
+output "function_app_name" {
+  description = "The name of an Function App"
+  value       = local.resource_names["function app"]
+}
+
+// Scope: global
+// Length: 3-24
+// Valid characters: Alphanumeric.
+output "data_lake_store_name" {
+  description = "The name of a data lake store"
+  value       = local.resource_names["data lake store"]
+}
+
+
 ################
 ### Database ###
 ################
