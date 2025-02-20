@@ -10,6 +10,38 @@ output "storage_account_name" {
   value       = local.resource_names["storage account"]
 }
 
+// Scope: storage account
+// Length: 3-63
+// Valid Characters: Alphanumeric
+output "container_name" {
+  description = "The name of the container in a storage account"
+  value       = local.resource_names["container"]
+}
+
+// Scope: storage account
+// Length: 3-63
+// Valid Characters: Alphanumeric
+output "table_name" {
+  description = "The name of the table in a storage account"
+  value       = local.resource_names["table"]
+}
+
+// Scope: storage account
+// Length: 3-63
+// Valid Characters: Alphanumeric
+output "queue_name" {
+  description = "The name of the queue in a storage account"
+  value       = local.resource_names["queue"]
+}
+
+// Scope: storage account
+// Length: 3-63
+// Valid Characters: Alphanumeric
+output "file_name" {
+  description = "The name of the file in a storage account"
+  value       = local.resource_names["file"]
+}
+
 // Scope: global
 // Length: 3-24
 // Valid Characters: Alphanumerics and hyphens. Start with letter. End with letter or digit. Can't contain consecutive hyphens.

@@ -56,3 +56,13 @@ variable "name_attributes_ssc" {
     error_message = "CSP region must be 1 character long."
   }
 }
+
+variable "storage_account_name" {
+  type = string
+  description = "Set this variable if you have already created a storage account, otherwise leave it empty. OPTIONAL."
+  default     = ""
+  validation {
+    condition = (var.storage_account_name == "" || length(var.storage_account_name) <= 24 && length(var.storage_account_name) >= 3)
+    error_message = "The storage account name must be between 3-24 characters long."
+  }
+}

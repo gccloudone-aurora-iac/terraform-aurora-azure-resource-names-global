@@ -1,7 +1,7 @@
 module "azure_resource_prefixes_ssc" {
   source = "../"
 
-  government = true
+  government   = true
   user_defined = "example"
   name_attributes_ssc = {
     department_code = "Sc"
