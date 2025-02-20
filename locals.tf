@@ -48,7 +48,7 @@ locals {
   resource_names_statcan = merge(
     {
       for resource_type in keys(local.resource_names_ssc) :
-      resource_type => "" if resource_type != lookup(local.resource_type_abbreviations_statcan, resource_type, null)
+      resource_type => ""
     },
     { for resource_type, abbrev in local.resource_type_abbreviations_statcan :
       resource_type => "${abbrev}${local.random_number}${var.user_defined}"
