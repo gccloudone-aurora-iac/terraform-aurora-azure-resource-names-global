@@ -13,22 +13,40 @@ locals {
     "azure data factory" = "adf"
   }
 
-  resource_names_exception = {
-    # For any resources that does not follow the convention <dept code><environment><CSP Region>-<userDefined-string>-suffix
+  # For any resources that don't have a suffix and have their own unique naming pattern.
+  resource_names_no_abbrev = {
     "storage account" = "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}"
     "data lake store" = "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}"
-    "container"       = var.storage_account_name == "" ? "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}-${random_string.random.result}" : "${var.storage_account_name}-${random_string.random.result}"
-    "queue"           = var.storage_account_name == "" ? "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}-${random_string.random.result}" : "${var.storage_account_name}-${random_string.random.result}"
-    "table"           = var.storage_account_name == "" ? "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}-${random_string.random.result}" : "${var.storage_account_name}-${random_string.random.result}"
-    "file"            = var.storage_account_name == "" ? "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}-${random_string.random.result}" : "${var.storage_account_name}-${random_string.random.result}"
+  }
+
+  # The pattern for the child resources of a storage account
+  resource_names_sa_children_pattern = "${lower(local.common_convention_base_ssc)}${lower(var.user_defined)}${local.random_number}-${random_string.random.result}"
+
+  resource_names_sa_children = {
+    "container" = merge(
+      { for sa_name in var.storage_account_names: sa_name => "${sa_name}-${random_string.random.result}" },
+      { (var.user_defined) = local.resource_names_sa_children_pattern }
+    )
+    "queue" = merge(
+      { for sa_name in var.storage_account_names: sa_name => "${sa_name}-${random_string.random.result}" },
+      { (var.user_defined) = local.resource_names_sa_children_pattern }
+    )
+    "table" = merge(
+      { for sa_name in var.storage_account_names: sa_name => "${sa_name}-${random_string.random.result}" },
+      { (var.user_defined) = local.resource_names_sa_children_pattern }
+    )
+    "file" = merge(
+      { for sa_name in var.storage_account_names: sa_name => "${sa_name}-${random_string.random.result}" },
+      { (var.user_defined) = local.resource_names_sa_children_pattern }
+    )
   }
 
   resource_names_ssc = merge(
     {
-      for resource_type, abbrev in local.resource_type_abbreviations_ssc :
+      for resource_type, abbrev in local.resource_type_abbreviations_ssc:
       resource_type => "${local.common_convention_base_ssc}-${var.user_defined}-${abbrev}"
     },
-    local.resource_names_exception
+    local.resource_names_no_abbrev,
+    local.resource_names_sa_children
   )
-
 }

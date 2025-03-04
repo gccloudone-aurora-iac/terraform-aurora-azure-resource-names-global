@@ -1,4 +1,4 @@
-module "azure_resource_prefixes_ssc" {
+module "azure_resource_names_ssc" {
   source = "../"
 
   naming_convention = "ssc"
@@ -8,8 +8,13 @@ module "azure_resource_prefixes_ssc" {
     environment     = "P"
     csp_region      = "c"
   }
+  storage_account_names = ["scdcproject67"]
 }
 
 output "azure_resource_prefixes_ssc_values" {
-  value = module.azure_resource_prefixes_ssc
+  value = module.azure_resource_names_ssc
+}
+
+output "sa_container_name" {
+    value = module.azure_resource_names_ssc.container_name["scdcproject67"]
 }

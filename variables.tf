@@ -56,12 +56,12 @@ variable "name_attributes" {
   }
 }
 
-variable "storage_account_name" {
-  type        = string
+variable "storage_account_names" {
+  type        = list(string)
   description = "Set this variable if you have already created a storage account, otherwise leave it empty. OPTIONAL."
-  default     = ""
+  default     = []
   validation {
-    condition     = (var.storage_account_name == "" || length(var.storage_account_name) <= 24 && length(var.storage_account_name) >= 3)
+    condition     = (var.storage_account_names == [] || alltrue([for name in var.storage_account_names : length(name) >= 3 && length(name) <= 24]))
     error_message = "The storage account name must be between 3-24 characters long."
   }
 }
