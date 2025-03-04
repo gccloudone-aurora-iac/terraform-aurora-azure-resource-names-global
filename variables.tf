@@ -9,23 +9,27 @@ variable "user_defined" {
   }
 }
 
-variable "government" {
-  type        = bool
-  default     = false
-  description = "Sets which naming convention to use. If true, use SSC's naming convention and set the name_attributes_ssc variable."
+variable "naming_convention" {
+  type        = string
+  default     = "stc"
+  description = "Sets which naming convention to use. Accepted values: stc, ssc"
+  validation {
+    condition     = var.naming_convention == "ssc" || var.naming_convention == "stc"
+    error_message = "The accepted values for the government variable are: stc, ssc."
+  }
 }
 
-variable "name_attributes_ssc" {
+variable "name_attributes" {
   type = object({
-    department_code    = string
-    csp_region         = string
-    environment        = string
+    department_code = string
+    csp_region      = string
+    environment     = string
   })
 
   default = {
-    department_code    = ""
-    csp_region         = ""
-    environment        = ""
+    department_code = ""
+    csp_region      = ""
+    environment     = ""
   }
 
   description = <<EOT
@@ -37,32 +41,27 @@ variable "name_attributes_ssc" {
   EOT
 
   validation {
-    condition     = var.government || (var.name_attributes_ssc.department_code == "" && var.name_attributes_ssc.csp_region == "" && var.name_attributes_ssc.environment == "")
-    error_message = "The variable 'name_attributes_ssc' must not be set if the variable 'government' is set to false."
-  }
-
-  validation {
-    condition     = (!var.government || length(var.name_attributes_ssc.environment) == 1)
+    condition     = (var.naming_convention == "stc" || length(var.name_attributes.environment) == 1)
     error_message = "Environment must be 1 character long."
   }
 
   validation {
-    condition     = (!var.government || length(var.name_attributes_ssc.department_code) == 2)
+    condition     = (var.naming_convention == "stc" || length(var.name_attributes.department_code) == 2)
     error_message = "Department code must be 2 characters long."
   }
 
   validation {
-    condition     = (!var.government || length(var.name_attributes_ssc.csp_region) == 1)
+    condition     = (var.naming_convention == "stc" || length(var.name_attributes.csp_region) == 1)
     error_message = "CSP region must be 1 character long."
   }
 }
 
 variable "storage_account_name" {
-  type = string
+  type        = string
   description = "Set this variable if you have already created a storage account, otherwise leave it empty. OPTIONAL."
   default     = ""
   validation {
-    condition = (var.storage_account_name == "" || length(var.storage_account_name) <= 24 && length(var.storage_account_name) >= 3)
+    condition     = (var.storage_account_name == "" || length(var.storage_account_name) <= 24 && length(var.storage_account_name) >= 3)
     error_message = "The storage account name must be between 3-24 characters long."
   }
 }

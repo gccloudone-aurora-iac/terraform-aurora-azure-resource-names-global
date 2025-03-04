@@ -1,9 +1,9 @@
 module "azure_resource_prefixes_ssc" {
   source = "../"
 
-  government   = true
-  user_defined = "example"
-  name_attributes_ssc = {
+  naming_convention = "ssc"
+  user_defined      = "example"
+  name_attributes = {
     department_code = "Sc"
     environment     = "P"
     csp_region      = "c"
