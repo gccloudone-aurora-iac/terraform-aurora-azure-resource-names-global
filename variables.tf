@@ -1,3 +1,39 @@
+variable "name_attributes" {
+  type = object({
+    department_code = string
+    owner           = string
+    project         = string
+    environment     = string
+    location        = string
+    instance        = string
+  })
+
+  default = {
+    department_code = ""
+    owner           = ""
+    project         = ""
+    environment     = ""
+    location        = ""
+    instance        = ""
+  }
+
+  description = <<EOT
+    name_attributes = {
+      department_code : "Two character code that uniquely identifies departments across the GC. REQUIRED."
+      owner : "The name of the resource owner. OPTIONAL."
+      project" "The name of the project. REQUIRED"
+      environment : "Single character code that identifies environment. REQUIRED."
+      location : "Single character code that identifies Clouser_defined_string Service Provider and Region. REQUIRED."
+      instance : "The instance number of the object. OPTIONAL."
+    }
+  EOT
+
+  validation {
+    condition     = (var.naming_convention == "oss" || length(var.name_attributes.department_code) == 2)
+    error_message = "Department code must be 2 characters long."
+  }
+}
+
 variable "user_defined" {
   description = "A user-defined field that describes the Azure resource."
   type        = string
@@ -11,57 +47,10 @@ variable "user_defined" {
 
 variable "naming_convention" {
   type        = string
-  default     = "stc"
-  description = "Sets which naming convention to use. Accepted values: stc, ssc"
+  default     = "oss"
+  description = "Sets which naming convention to use. Accepted values: oss, gc"
   validation {
-    condition     = var.naming_convention == "ssc" || var.naming_convention == "stc"
-    error_message = "The naming_convention field must either be 'ssc' or 'stc'."
-  }
-}
-
-variable "name_attributes" {
-  type = object({
-    department_code = string
-    csp_region      = string
-    environment     = string
-  })
-
-  default = {
-    department_code = ""
-    csp_region      = ""
-    environment     = ""
-  }
-
-  description = <<EOT
-    name_attributes_ssc = {
-      department_code : "Two character code that uniquely identifies departments across the GC. REQUIRED."
-      csp_region : "Single character code that identifies Cloud Service Provider and Region. REQUIRED."
-      environment : "Single character code that identifies environment. REQUIRED."
-    }
-  EOT
-
-  validation {
-    condition     = (var.naming_convention == "stc" || length(var.name_attributes.environment) == 1)
-    error_message = "Environment must be 1 character long."
-  }
-
-  validation {
-    condition     = (var.naming_convention == "stc" || length(var.name_attributes.department_code) == 2)
-    error_message = "Department code must be 2 characters long."
-  }
-
-  validation {
-    condition     = (var.naming_convention == "stc" || length(var.name_attributes.csp_region) == 1)
-    error_message = "CSP region must be 1 character long."
-  }
-}
-
-variable "storage_account_names" {
-  type        = list(string)
-  description = "Set this variable if you have already created a storage account, otherwise leave it empty. OPTIONAL."
-  default     = []
-  validation {
-    condition     = (var.storage_account_names == [] || alltrue([for name in var.storage_account_names : length(name) >= 3 && length(name) <= 24]))
-    error_message = "The storage account name must be between 3-24 characters long."
+    condition     = var.naming_convention == "oss" || var.naming_convention == "gc"
+    error_message = "The naming_convention field must either be 'oss' or 'gc'."
   }
 }

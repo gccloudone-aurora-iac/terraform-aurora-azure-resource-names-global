@@ -13,33 +13,33 @@ output "storage_account_name" {
 // Scope: storage account
 // Length: 3-63
 // Valid Characters: Alphanumeric
-output "container_name" {
+output "storage_account_container_name" {
   description = "The name of the container in a storage account"
-  value       = local.resource_names["container"]
+  value       = local.resource_names["storage account container"]
 }
 
 // Scope: storage account
 // Length: 3-63
 // Valid Characters: Alphanumeric
-output "table_name" {
+output "storage_account_table_name" {
   description = "The name of the table in a storage account"
-  value       = local.resource_names["table"]
+  value       = local.resource_names["storage account table"]
 }
 
 // Scope: storage account
 // Length: 3-63
 // Valid Characters: Alphanumeric
-output "queue_name" {
+output "storage_account_queue_name" {
   description = "The name of the queue in a storage account"
-  value       = local.resource_names["queue"]
+  value       = local.resource_names["storage account queue"]
 }
 
 // Scope: storage account
 // Length: 3-63
 // Valid Characters: Alphanumeric
-output "file_name" {
+output "storage_account_file_name" {
   description = "The name of the file in a storage account"
-  value       = local.resource_names["file"]
+  value       = local.resource_names["storage account file"]
 }
 
 // Scope: global
