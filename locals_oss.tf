@@ -3,6 +3,15 @@
 ##############################
 
 locals {
+  location_table_oss = {
+    "canadacentral" = "cc"
+    "canadaeast"    = "ce"
+  }
+}
+
+locals {
+  location_oss = lookup(local.location_table_oss, replace(lower(var.name_attributes.location), " ", ""))
+
   common_convention_base_oss = ""
 
   resource_type_abbreviations_oss = {

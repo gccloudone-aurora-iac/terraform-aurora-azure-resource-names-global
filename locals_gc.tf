@@ -3,7 +3,16 @@
 #############################
 
 locals {
-  common_convention_base_gc = "${var.name_attributes.department_code}${var.name_attributes.environment}${var.name_attributes.location}"
+  location_table_gc = {
+    "canadacentral" = "c"
+    "canadaeast"    = "d"
+  }
+}
+
+locals {
+  location_gc = lookup(local.location_table_gc, replace(lower(var.name_attributes.location), " ", ""))
+
+  common_convention_base_gc = "${var.name_attributes.department_code}${var.name_attributes.environment}${local.location_gc}"
 
   resource_type_abbreviations_gc = {
     "azure data factory" = "adf"
