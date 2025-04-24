@@ -14,7 +14,8 @@ locals {
 
   common_convention_base_gc = "${var.name_attributes.department_code}${var.name_attributes.environment}${local.location_gc}"
 
-  project_gc = replace(lower(var.name_attributes.project), "-", "")
+  project_gc       = replace(lower(var.name_attributes.project), "-", "")
+  project_gc_short = substr(var.name_attributes.project, 0, 6)
 
   resource_type_abbreviations_gc = {
     "azure data factory" = "adf"
@@ -36,7 +37,7 @@ locals {
   resource_names_gc = merge(
     {
       for resource_type, abbrev in local.resource_type_abbreviations_gc :
-      resource_type => "${local.common_convention_base_gc}-${var.name_attributes.project}-${var.user_defined}-${local.random_number}-${abbrev}"
+      resource_type => "${local.common_convention_base_gc}-${local.project_gc_short}-${var.user_defined}-${local.random_number}-${abbrev}"
     },
     local.resource_type_abbreviations_gc_custom
   )
